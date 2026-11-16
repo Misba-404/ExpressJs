@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>travelPage</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+
+<body>
+  <h1>
+    <%= welcomeMessage %>
+  </h1>
+  <ul>
+    <% for(i=0;i<places.length;i++){ %>
+      <li>
+        <strong>
+          <%= places[i].name %>
+        </strong> - <%= places[i].country %>
+          <% if(places[i].isPopular){ %>
+            <span>Popular destination</span>
+            <% } %>
+      </li>
+      <% } %>
+
+  </ul>
+  <script>
+    alert("Welcome to our Travel Page")
+  </script>
+</body>
+
+</html>
