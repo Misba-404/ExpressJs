@@ -1,6 +1,7 @@
 // mongoDb database
 var express = require("express");
 var router = express.Router();
+const User = require("../models/userModel");
 
 const { validationResult, check } = require("express-validator");
 
@@ -8,7 +9,7 @@ router.get("/", function (req, res) {
   res.render("hello-world", { errors: [] });
 });
 
-//route for handling form submission with validations
+// for handling form submission with validations
 router.post(
   "/createUser",
   [
@@ -24,7 +25,7 @@ router.post(
 
     if (!errors.isEmpty()) {
       // There are validation errors, render the form with errors
-      res.render("hello-world", { errors: errors.array() });
+      return res.render("hello-world", { errors: errors.array() });
     } else {
       // No validation errors, proceed with rendering the form data
       const email = req.body.email;
@@ -33,6 +34,31 @@ router.post(
         allData: req.body,
       });
     }
+
+    // Save Data From forms to DB
+    const { email, password } = req.body;
+
+    // Create a new User object
+    const newUser = new User({
+      email,
+      password,
+    });
+
+    // Save the User object to the database
+    newUser
+      .save()
+      .then(() => {
+        res.render("form-data", {
+          message: "Data saved to db",
+          email: email,
+          allData: req.body,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Database error");
+      });
   },
 );
+
 module.exports = router;
