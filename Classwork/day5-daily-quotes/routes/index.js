@@ -9,7 +9,7 @@ router.get("/", function (req, res) {
   res.render("hello-world", { errors: [] });
 });
 
-// for handling form submission with validations
+// POST : createuser for handling form submission with validations
 router.post(
   "/createUser",
   [
@@ -36,10 +36,11 @@ router.post(
     }
 
     // Save Data From forms to DB
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Create a new User object
     const newUser = new User({
+      username,
       email,
       password,
     });
